@@ -74,7 +74,9 @@ class _SignInPageState extends State<SignInPage> {
   Widget signInButton() {
     return CustomButton(
       tittle: 'Sign In',
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamedAndRemoveUntil(context, '/main-page', (route) => false);
+      },
     );
   }
 

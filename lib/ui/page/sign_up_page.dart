@@ -3,9 +3,14 @@ import 'package:storma/shared/theme.dart';
 import 'package:storma/ui/widgets/custom_button.dart';
 import 'package:storma/ui/widgets/custom_text_form_field.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({ Key? key }) : super(key: key);
 
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
   Widget title() {
     return Container(
       margin: const EdgeInsets.only(
@@ -87,7 +92,9 @@ class SignUpPage extends StatelessWidget {
   Widget signInButton() {
     return CustomButton(
       tittle: 'Sign Up',
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamedAndRemoveUntil(context, '/main-page', (route) => false);
+      },
     );
   }
 
@@ -98,13 +105,15 @@ class SignUpPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Don\'t have an account?',
+            'Have an account?',
             style: greyTextStyle,
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/signIn-page');
+            },
             child: Text(
-              'Sign Up',
+              'Sign In',
               style: primaryTextStyle.copyWith(
                 fontWeight: semiBold,
               ),

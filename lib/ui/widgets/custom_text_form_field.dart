@@ -37,14 +37,10 @@ class CustomTextFormField extends StatelessWidget {
                 color: cBgColor2),
             child: Row(
               children: [
-                Container(
-                  height: 12,
-                  width: 17,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(imageUrl),
-                    ),
-                  ),
+                Image.asset(
+                  imageUrl,
+                  width: 16,
+                  height: 18,
                 ),
                 const SizedBox(
                   width: 16,
