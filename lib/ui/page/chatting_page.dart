@@ -64,10 +64,6 @@ class ChattingPage extends StatelessWidget {
             ),
             children: const [
               ChatTile(),
-              ChatTile(),
-              ChatTile(),
-              ChatTile(),
-              ChatTile(),
             ],
           ),
         ),

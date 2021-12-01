@@ -15,6 +15,7 @@ class BubbleChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     Widget productPreview() {
       return Row(
         mainAxisAlignment:
