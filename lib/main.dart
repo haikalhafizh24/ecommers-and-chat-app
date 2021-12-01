@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:storma/ui/page/cart_page.dart';
+import 'package:storma/ui/page/chat_page_detail.dart';
 import 'package:storma/ui/page/chatting_page.dart';
 import 'package:storma/ui/page/home_page.dart';
 import 'package:storma/ui/page/love_page.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         '/love-page' : (context) => const LovePage(),
         '/profile-page' : (context) => const ProfilePage(),
         '/cart-page' : (context) => const CartPage(),
+        '/chat-page-detail' : (context) => const ChatPageDetail(),
       },
     );
   }

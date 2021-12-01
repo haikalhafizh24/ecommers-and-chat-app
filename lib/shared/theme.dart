@@ -13,6 +13,7 @@ Color cBgColor1 = const Color(0xFF1F1D2B);
 Color cBgColor2 = const Color(0xFF2B2937);
 Color cBgColor3 = const Color(0xFF242231);
 Color cBgColor4 = const Color(0xFF252836);
+Color cBgColor5 = const Color(0xFF2B2844);
 Color cWhiteColor = const Color(0xFFE1E1E1);
 Color cGreyColor = const Color(0xFF999999);
 Color cDeactiveColor = const Color(0xFF504F5E);
