@@ -108,7 +108,7 @@ class _MainPageState extends State<MainPage> {
       case 1:
         return const ChattingPage();
       case 2:
-        return const LovePage();
+        return const WishlistPage();
       case 3:
         return const ProfilePage();
       default:

@@ -26,6 +26,8 @@ TextStyle greyTextStyle = GoogleFonts.poppins(color: cGreyColor);
 TextStyle blueTextStyle = GoogleFonts.poppins(color: cBlueColor);
 TextStyle redTextStyle = GoogleFonts.poppins(color: cRedColor);
 TextStyle deactiveTextStyle = GoogleFonts.poppins(color: cDeactiveColor);
+TextStyle bgColor4TextStyle = GoogleFonts.poppins(color: cBgColor4);
+
 
 FontWeight light = FontWeight.w300;
 FontWeight regular = FontWeight.w400;
