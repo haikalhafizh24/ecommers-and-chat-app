@@ -6,6 +6,7 @@ import 'package:storma/ui/page/edit_profile_page.dart';
 import 'package:storma/ui/page/home_page.dart';
 import 'package:storma/ui/page/love_page.dart';
 import 'package:storma/ui/page/main_page.dart';
+import 'package:storma/ui/page/product_page.dart';
 import 'package:storma/ui/page/profile_page.dart';
 import 'package:storma/ui/page/sign_in_page.dart';
 import 'package:storma/ui/page/sign_up_page.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         '/cart-page' : (context) => const CartPage(),
         '/chat-page-detail' : (context) => const ChatPageDetail(),
         '/edit-profile-page' : (context) => const EditProfilePage(),
+        '/product' : (context) => const ProductPage(),
       },
     );
   }
