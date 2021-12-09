@@ -8,7 +8,6 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     Widget header() {
       return AppBar(
         leading: IconButton(
@@ -100,6 +99,47 @@ class CartPage extends StatelessWidget {
       );
     }
 
+    Widget actionButton() {
+      return Container(
+        height: 70,
+        padding: const EdgeInsets.all(12),
+        color: cBgColor1,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Total Amount',
+                  style: whiteTextStyle,
+                ),
+                Text(
+                  '\$ 238.00',
+                  style: blueTextStyle.copyWith(
+                    fontWeight: semiBold,
+                    fontSize: 16,
+                    letterSpacing: 1,
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            CustomButton(
+              color: cPrimaryColor,
+              width: 150,
+              tittle: 'Checkout',
+              onTap: () {
+                Navigator.pushNamed(context, '/checkout');
+              },
+            ),
+          ],
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: cBgColor3,
       appBar: PreferredSize(
@@ -107,6 +147,7 @@ class CartPage extends StatelessWidget {
         preferredSize: const Size.fromHeight(60),
       ),
       body: content(),
+      bottomNavigationBar: actionButton(),
     );
   }
 }

@@ -98,23 +98,6 @@ class _ProductPageState extends State<ProductPage> {
                 ),
               ),
             ),
-            // Container(
-            //   // margin: const EdgeInsets.only(
-            //   //   top: 100,
-            //   // ),
-            //   // height: 30,
-            //   decoration: BoxDecoration(
-            //     gradient: LinearGradient(
-            //       begin: Alignment.topCenter,
-            //       end: Alignment.bottomCenter,
-            //       colors: [
-            //         cWhiteColor.withOpacity(0),
-            //         cBgColor3.withOpacity(1)
-            //       ],
-            //     ),
-            //   ),
-            // ),
-
             Container(
               padding: const EdgeInsets.all(10),
               child: Text(
@@ -132,7 +115,8 @@ class _ProductPageState extends State<ProductPage> {
 
     Widget content() {
       int index = -1;
-
+      bool isWishlist = false;
+      // NOTE: Product Image
       return Column(
         children: [
           CarouselSlider(
@@ -201,10 +185,51 @@ class _ProductPageState extends State<ProductPage> {
                           )
                         ],
                       ),
-                      Image.asset(
-                        'assets/Love_icon.png',
-                        color: cRedColor,
-                        width: 22,
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isWishlist = !isWishlist;
+                          });
+
+                          if (isWishlist) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                margin: const EdgeInsets.only(
+                                  right: 20,
+                                  left: 20,
+                                  bottom: 20,
+                                ),
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: cBlueColor,
+                                content: const Text(
+                                  'Has been added to wishlist',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                margin: const EdgeInsets.only(
+                                  right: 20,
+                                  left: 20,
+                                  bottom: 20,
+                                ),
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: cRedColor,
+                                content: const Text(
+                                  'Has been removed from wishlist',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        child: Image.asset(
+                          'assets/Love_icon.png',
+                          color: isWishlist ? cRedColor : cDeactiveColor,
+                          width: 22,
+                        ),
                       ),
                     ],
                   ),
@@ -316,13 +341,7 @@ class _ProductPageState extends State<ProductPage> {
 
     Widget actionButton() {
       return Container(
-        padding: const EdgeInsets.all(
-          // left: 10,
-          // right: 10,
-          // bottom: 10,
-          // top:
-          5,
-        ),
+        padding: const EdgeInsets.all(5),
         color: cBgColor1,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -348,8 +367,24 @@ class _ProductPageState extends State<ProductPage> {
             ),
             Expanded(
               child: CustomButton(
-                tittle: 'Add to Chart',
-                onTap: () {},
+                tittle: 'Add to Cart',
+                onTap: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      margin: const EdgeInsets.only(
+                        right: 20,
+                        left: 20,
+                        bottom: 20,
+                      ),
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: cBlueColor,
+                      content: const Text(
+                        'Product has been added to cart ',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
             const SizedBox(
