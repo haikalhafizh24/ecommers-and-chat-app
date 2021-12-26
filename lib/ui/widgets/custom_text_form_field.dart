@@ -6,14 +6,15 @@ class CustomTextFormField extends StatelessWidget {
   final String hintText;
   final String imageUrl;
   final bool obsecureText;
+  final TextEditingController controller;
 
   const CustomTextFormField({
     Key? key,
-
     required this.tittle,
     required this.hintText,
     required this.imageUrl,
     this.obsecureText = false,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -47,6 +48,7 @@ class CustomTextFormField extends StatelessWidget {
                 ),
                 Expanded(
                   child: TextFormField(
+                    controller: controller,
                     obscureText: obsecureText,
                     style: whiteTextStyle,
                     cursorColor: cBlueColor,

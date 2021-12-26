@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:storma/providers/auth_provider.dart';
 import 'package:storma/ui/page/cart_page.dart';
 import 'package:storma/ui/page/chat_page_detail.dart';
 import 'package:storma/ui/page/chatting_page.dart';
@@ -23,23 +25,30 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      routes: {
-        '/': (context) => const SplashPage(),
-        '/signIn-page': (context) => const SignInPage(),
-        '/signUp-page': (context) => const SignUpPage(),
-        '/main-page': (context) => const MainPage(),
-        '/home-page': (context) => const HomePage(),
-        '/chat-page': (context) => const ChattingPage(),
-        '/wishlist-page': (context) => const WishlistPage(),
-        '/profile-page': (context) => const ProfilePage(),
-        '/cart-page': (context) => const CartPage(),
-        '/chat-page-detail': (context) => const ChatPageDetail(),
-        '/edit-profile-page': (context) => const EditProfilePage(),
-        '/product': (context) => const ProductPage(),
-        '/checkout': (context) => const CheckoutPage(),
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => AuthProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        routes: {
+          '/': (context) => const SplashPage(),
+          '/signIn-page': (context) => const SignInPage(),
+          '/signUp-page': (context) => const SignUpPage(),
+          '/main-page': (context) => const MainPage(),
+          '/home-page': (context) => const HomePage(),
+          '/chat-page': (context) => const ChattingPage(),
+          '/wishlist-page': (context) => const WishlistPage(),
+          '/profile-page': (context) => const ProfilePage(),
+          '/cart-page': (context) => const CartPage(),
+          '/chat-page-detail': (context) => const ChatPageDetail(),
+          '/edit-profile-page': (context) => const EditProfilePage(),
+          '/product': (context) => const ProductPage(),
+          '/checkout': (context) => const CheckoutPage(),
+        },
+      ),
     );
   }
 }
