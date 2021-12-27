@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:storma/models/user_model.dart';
+import 'package:storma/providers/auth_provider.dart';
 import 'package:storma/shared/theme.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -6,6 +9,9 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserModel user = authProvider.user;
+
     Widget header() {
       return AppBar(
         elevation: 0,
@@ -18,10 +24,12 @@ class ProfilePage extends StatelessWidget {
                 Container(
                   height: 70,
                   width: 70,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image: AssetImage('assets/user_image.png'),
+                      image: NetworkImage(
+                        user.profilePhotoUrl,
+                      ),
                     ),
                   ),
                 ),
@@ -33,15 +41,15 @@ class ProfilePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Zee Asadel',
+                        user.name,
                         style: whiteTextStyle.copyWith(
-                          fontSize: 18,
+                          fontSize: 24,
                           fontWeight: semiBold,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Text(
-                        '@zeeJkt48',
+                        '@${user.username}',
                         style: deactiveTextStyle.copyWith(
                           fontSize: 14,
                           fontWeight: light,
@@ -79,23 +87,23 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
           SettingsTile(
-            ontap: (){
+            ontap: () {
               Navigator.pushNamed(context, '/edit-profile-page');
             },
             tittle: 'Edit Profile',
           ),
           SettingsTile(
-            ontap: (){},
+            ontap: () {},
             tittle: 'Your Transaction',
           ),
           SettingsTile(
-            ontap: (){},
+            ontap: () {},
             tittle: 'Help',
           ),
         ],
       );
     }
-    
+
     Widget generalSetting() {
       return Container(
         margin: EdgeInsets.only(top: defaultMargin),
@@ -110,15 +118,15 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             SettingsTile(
-              ontap: (){},
+              ontap: () {},
               tittle: 'Privacy & Policy',
             ),
             SettingsTile(
-              ontap: (){},
+              ontap: () {},
               tittle: 'Term of Service',
             ),
             SettingsTile(
-              ontap: (){},
+              ontap: () {},
               tittle: 'Rate App',
             ),
           ],

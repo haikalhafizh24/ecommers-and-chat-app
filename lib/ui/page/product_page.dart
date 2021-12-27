@@ -1,10 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:storma/models/product_model.dart';
 import 'package:storma/shared/theme.dart';
 import 'package:storma/ui/widgets/custom_button.dart';
 
 class ProductPage extends StatefulWidget {
-  const ProductPage({Key? key}) : super(key: key);
+  final ProductModel product;
+  const ProductPage({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
 
   @override
   State<ProductPage> createState() => _ProductPageState();
@@ -120,10 +125,10 @@ class _ProductPageState extends State<ProductPage> {
       return Column(
         children: [
           CarouselSlider(
-            items: imageProduct
+            items: widget.product.galleries
                 .map(
-                  (imageProduct) => Image.asset(
-                    imageProduct,
+                  (image) => Image.network(
+                    image.url,
                     width: MediaQuery.of(context).size.width,
                     height: 320,
                     fit: BoxFit.cover,
@@ -143,7 +148,7 @@ class _ProductPageState extends State<ProductPage> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: imageProduct.map((e) {
+            children: widget.product.galleries.map((e) {
               index++;
               return indicator(index);
             }).toList(),
@@ -173,14 +178,14 @@ class _ProductPageState extends State<ProductPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Adidas Ultraboost 2.0',
+                            widget.product.name,
                             style: whiteTextStyle.copyWith(
                               fontSize: 18,
                               fontWeight: semiBold,
                             ),
                           ),
                           Text(
-                            'Sneakers',
+                            widget.product.category.name,
                             style: greyTextStyle,
                           )
                         ],
@@ -252,7 +257,7 @@ class _ProductPageState extends State<ProductPage> {
                         style: whiteTextStyle,
                       ),
                       Text(
-                        '\$ 78.98',
+                        '\$ ${widget.product.price}',
                         style: blueTextStyle.copyWith(
                           fontSize: 16,
                         ),
@@ -263,6 +268,7 @@ class _ProductPageState extends State<ProductPage> {
 
                 // Description
                 Container(
+                  width: double.infinity,
                   margin: EdgeInsets.only(
                     top: defaultMargin,
                     left: defaultMargin,
@@ -279,8 +285,9 @@ class _ProductPageState extends State<ProductPage> {
                         height: 12,
                       ),
                       Text(
-                        'Unpaved trails and mixed surfaces are easy when you have the traction and support you need. Casual enough for the daily commute.',
+                        widget.product.description,
                         style: greyTextStyle,
+                        textAlign: TextAlign.justify,
                       ),
                     ],
                   ),

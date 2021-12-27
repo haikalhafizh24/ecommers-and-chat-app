@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:storma/models/user_model.dart';
+import 'package:storma/providers/auth_provider.dart';
 import 'package:storma/shared/theme.dart';
 
 class EditProfilePage extends StatelessWidget {
@@ -6,6 +9,9 @@ class EditProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserModel user = authProvider.user;
+
     Widget header() {
       return AppBar(
         leading: IconButton(
@@ -23,6 +29,17 @@ class EditProfilePage extends StatelessWidget {
             fontWeight: medium,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.check,
+              color: cBlueColor,
+            ),
+          ),
+        ],
       );
     }
 
@@ -37,10 +54,13 @@ class EditProfilePage extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 10),
               height: 100,
               width: 100,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: AssetImage('assets/user_image.png'),
+                  fit: BoxFit.fill,
+                  image: NetworkImage(
+                    user.profilePhotoUrl,
+                  ),
                 ),
               ),
             ),
@@ -52,18 +72,21 @@ class EditProfilePage extends StatelessWidget {
               ),
             ),
             Column(
-              children: const [
-                SizedBox(
+              children: [
+                const SizedBox(
                   height: 12,
                 ),
                 InputForm(
                   tittle: 'Name',
+                  hintText: user.name,
                 ),
                 InputForm(
                   tittle: 'Username',
+                  hintText: user.username,
                 ),
                 InputForm(
                   tittle: 'Email Address',
+                  hintText: user.email,
                 ),
               ],
             )
@@ -85,9 +108,11 @@ class EditProfilePage extends StatelessWidget {
 
 class InputForm extends StatelessWidget {
   final String tittle;
+  final String hintText;
   const InputForm({
     Key? key,
     required this.tittle,
+    required this.hintText,
   }) : super(key: key);
 
   @override
@@ -105,6 +130,8 @@ class InputForm extends StatelessWidget {
             style: whiteTextStyle,
             cursorColor: cBlueColor,
             decoration: InputDecoration(
+              hintText: hintText,
+              hintStyle: whiteTextStyle,
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
                   color: cGreyColor,

@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:storma/models/product_model.dart';
 import 'package:storma/shared/theme.dart';
+import 'package:storma/ui/page/product_page.dart';
 
 class NewArrivalsItem extends StatelessWidget {
-  final String imageUrl;
-  final String tittle;
-  final String category;
-  final String price;
+  final ProductModel product;
   const NewArrivalsItem({
     Key? key,
-    required this.imageUrl,
-    required this.tittle,
-    required this.category,
-    required this.price,
+    required this.product,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.pushNamed(context, '/product');
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductPage(product: product),
+          ),
+        );
       },
       child: SizedBox(
         width: double.infinity,
@@ -32,7 +33,9 @@ class NewArrivalsItem extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(defaultRadius),
                     image: DecorationImage(
-                      image: AssetImage(imageUrl),
+                      image: NetworkImage(
+                        product.galleries[0].url,
+                      ),
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -44,7 +47,7 @@ class NewArrivalsItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      tittle,
+                      product.name,
                       overflow: TextOverflow.clip,
                       style: whiteTextStyle.copyWith(
                         fontSize: 18,
@@ -52,14 +55,14 @@ class NewArrivalsItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      category,
+                      product.category.name,
                       style: greyTextStyle,
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     Text(
-                      price,
+                      '\$${product.price}',
                       style: blueTextStyle.copyWith(
                         fontSize: 16,
                         fontWeight: semiBold,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storma/providers/auth_provider.dart';
+import 'package:storma/providers/product_provider.dart';
 import 'package:storma/ui/page/cart_page.dart';
 import 'package:storma/ui/page/chat_page_detail.dart';
 import 'package:storma/ui/page/chatting_page.dart';
@@ -9,7 +10,6 @@ import 'package:storma/ui/page/edit_profile_page.dart';
 import 'package:storma/ui/page/home_page.dart';
 import 'package:storma/ui/page/love_page.dart';
 import 'package:storma/ui/page/main_page.dart';
-import 'package:storma/ui/page/product_page.dart';
 import 'package:storma/ui/page/profile_page.dart';
 import 'package:storma/ui/page/sign_in_page.dart';
 import 'package:storma/ui/page/sign_up_page.dart';
@@ -30,6 +30,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => AuthProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => ProductProvider(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -45,7 +48,6 @@ class MyApp extends StatelessWidget {
           '/cart-page': (context) => const CartPage(),
           '/chat-page-detail': (context) => const ChatPageDetail(),
           '/edit-profile-page': (context) => const EditProfilePage(),
-          '/product': (context) => const ProductPage(),
           '/checkout': (context) => const CheckoutPage(),
         },
       ),
