@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:storma/providers/wishlist_provider.dart';
 import 'package:storma/shared/theme.dart';
 import 'package:storma/ui/widgets/custom_button.dart';
 import 'package:storma/ui/widgets/wishlist_tile.dart';
 
-class WishlistPage extends StatelessWidget {
+class WishlistPage extends StatefulWidget {
   const WishlistPage({Key? key}) : super(key: key);
 
   @override
+  State<WishlistPage> createState() => _WishlistPageState();
+}
+
+class _WishlistPageState extends State<WishlistPage> {
+  @override
   Widget build(BuildContext context) {
+    WishlistProvider wishlistProvider = Provider.of<WishlistProvider>(context);
+
     Widget header() {
       return AppBar(
         backgroundColor: cBgColor1,
@@ -72,13 +81,11 @@ class WishlistPage extends StatelessWidget {
           vertical: 25,
         ),
         child: Column(
-          children: const [
-            WishlistTile(
-              imageUrl: 'assets/shoes_image.png',
-              tittle: 'Adidas Ultraboost 2.0',
-              price: '\$ 76. 98',
-            )
-          ],
+          children: wishlistProvider.wishlist
+              .map((product) => WishlistTile(
+                    product: product,
+                  ))
+              .toList(),
         ),
       );
     }
@@ -89,7 +96,7 @@ class WishlistPage extends StatelessWidget {
         preferredSize: const Size.fromHeight(60),
       ),
       backgroundColor: cBgColor1,
-      body: content(),
+      body: wishlistProvider.wishlist.isEmpty ? emptyWishlist() : content(),
     );
   }
 }
