@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:storma/models/product_model.dart';
+import 'package:storma/providers/wishlist_provider.dart';
 import 'package:storma/shared/theme.dart';
 import 'package:storma/ui/widgets/custom_button.dart';
 
@@ -38,6 +40,8 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    WishlistProvider wishlistProvider = Provider.of<WishlistProvider>(context);
+
     Widget header() {
       return SafeArea(
         child: Container(
@@ -120,7 +124,6 @@ class _ProductPageState extends State<ProductPage> {
 
     Widget content() {
       int index = -1;
-      bool isWishlist = false;
       // NOTE: Product Image
       return Column(
         children: [
@@ -192,11 +195,9 @@ class _ProductPageState extends State<ProductPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          setState(() {
-                            isWishlist = !isWishlist;
-                          });
+                          wishlistProvider.setProduct(widget.product);
 
-                          if (isWishlist) {
+                          if (wishlistProvider.isWishlist(widget.product)) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 margin: const EdgeInsets.only(
@@ -230,10 +231,12 @@ class _ProductPageState extends State<ProductPage> {
                             );
                           }
                         },
-                        child: Image.asset(
-                          'assets/Love_icon.png',
-                          color: isWishlist ? cRedColor : cDeactiveColor,
-                          width: 22,
+                        child: Icon(
+                          Icons.favorite,
+                          color: wishlistProvider.isWishlist(widget.product)
+                              ? cRedColor
+                              : cDeactiveColor,
+                          size: 22,
                         ),
                       ),
                     ],
