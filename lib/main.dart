@@ -3,11 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:storma/providers/auth_provider.dart';
 import 'package:storma/providers/cart_provider.dart';
 import 'package:storma/providers/product_provider.dart';
+import 'package:storma/providers/transaction_provider.dart';
 import 'package:storma/providers/wishlist_provider.dart';
 import 'package:storma/ui/page/cart_page.dart';
 import 'package:storma/ui/page/chat_page_detail.dart';
 import 'package:storma/ui/page/chatting_page.dart';
 import 'package:storma/ui/page/checkout_page.dart';
+import 'package:storma/ui/page/checkout_succes.dart';
 import 'package:storma/ui/page/edit_profile_page.dart';
 import 'package:storma/ui/page/home_page.dart';
 import 'package:storma/ui/page/love_page.dart';
@@ -41,6 +43,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => CartProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => TransactionProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -57,6 +62,7 @@ class MyApp extends StatelessWidget {
           '/chat-page-detail': (context) => const ChatPageDetail(),
           '/edit-profile-page': (context) => const EditProfilePage(),
           '/checkout': (context) => const CheckoutPage(),
+          '/checkout-success': (context) => const CheckoutSuccesPage(),
         },
       ),
     );

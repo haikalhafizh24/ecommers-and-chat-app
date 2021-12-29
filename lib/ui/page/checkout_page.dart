@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:storma/providers/auth_provider.dart';
 import 'package:storma/providers/cart_provider.dart';
+import 'package:storma/providers/transaction_provider.dart';
 import 'package:storma/shared/theme.dart';
 import 'package:storma/ui/widgets/checkout_item.dart';
 import 'package:storma/ui/widgets/custom_button.dart';
@@ -11,6 +13,21 @@ class CheckoutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
+    TransactionProvider transactionProvider =
+        Provider.of<TransactionProvider>(context);
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
+    handleCheckout() async {
+      if (await transactionProvider.checkout(
+        authProvider.user.token,
+        cartProvider.carts,
+        cartProvider.totalPrice(),
+      )) {
+        cartProvider.carts = [];
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/checkout-success', (route) => false);
+      }
+    }
 
     Widget header() {
       return AppBar(
@@ -201,9 +218,7 @@ class CheckoutPage extends StatelessWidget {
           child: CustomButton(
             color: cPrimaryColor,
             tittle: 'Order Now',
-            onTap: () {
-              Navigator.pushNamed(context, '/checkout');
-            },
+            onTap: handleCheckout,
           ),
         ),
       );
