@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:storma/providers/cart_provider.dart';
 import 'package:storma/shared/theme.dart';
 import 'package:storma/ui/widgets/cart_tile.dart';
 import 'package:storma/ui/widgets/custom_button.dart';
@@ -8,6 +10,8 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
+
     Widget header() {
       return AppBar(
         leading: IconButton(
@@ -78,23 +82,8 @@ class CartPage extends StatelessWidget {
           vertical: 25,
         ),
         child: Column(
-          children: const [
-            CartTile(
-              imageUrl: 'assets/shoes_image.png',
-              tittle: 'Adidas Ultraboost 2.0',
-              price: '\$ 76. 98',
-            ),
-            CartTile(
-              imageUrl: 'assets/shoes_image.png',
-              tittle: 'Adidas Ultraboost 2.0',
-              price: '\$ 76. 98',
-            ),
-            CartTile(
-              imageUrl: 'assets/shoes_image.png',
-              tittle: 'Adidas Ultraboost 2.0',
-              price: '\$ 76. 98',
-            ),
-          ],
+          children:
+              cartProvider.carts.map((cart) => CartTile(cart: cart)).toList(),
         ),
       );
     }
@@ -102,12 +91,13 @@ class CartPage extends StatelessWidget {
     Widget actionButton() {
       return Container(
         height: 70,
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         color: cBgColor1,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -115,10 +105,10 @@ class CartPage extends StatelessWidget {
                   style: whiteTextStyle,
                 ),
                 Text(
-                  '\$ 238.00',
+                  '\$ ${cartProvider.totalPrice()}',
                   style: blueTextStyle.copyWith(
                     fontWeight: semiBold,
-                    fontSize: 16,
+                    fontSize: 18,
                     letterSpacing: 1,
                   ),
                 )
@@ -146,7 +136,7 @@ class CartPage extends StatelessWidget {
         child: header(),
         preferredSize: const Size.fromHeight(60),
       ),
-      body: content(),
+      body: cartProvider.carts.isEmpty ? emptyCart() : content(),
       bottomNavigationBar: actionButton(),
     );
   }

@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:storma/models/cart_model.dart';
 import 'package:storma/shared/theme.dart';
 
 class CheckoutItem extends StatelessWidget {
-  final String imageUrl;
-  final String tittle;
-  final String price;
-  final int totalItem;
-  const CheckoutItem({
-    Key? key,
-    required this.imageUrl,
-    required this.tittle,
-    required this.price,
-    required this.totalItem,
-  }) : super(key: key);
+  final CartModel cart;
+  const CheckoutItem({Key? key, required this.cart}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +25,7 @@ class CheckoutItem extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
-                    image: AssetImage(imageUrl),
+                    image: NetworkImage(cart.product.galleries[0].url),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -47,7 +39,7 @@ class CheckoutItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      tittle,
+                      cart.product.name,
                       style: whiteTextStyle.copyWith(
                         fontWeight: semiBold,
                         fontSize: 16,
@@ -55,7 +47,7 @@ class CheckoutItem extends StatelessWidget {
                       overflow: TextOverflow.clip,
                     ),
                     Text(
-                      price,
+                      '\$ ${cart.product.price}',
                       style: blueTextStyle.copyWith(
                         fontSize: 14,
                       ),
@@ -64,7 +56,7 @@ class CheckoutItem extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      '$totalItem items',
+                      '${cart.quantity} items',
                       style: greyTextStyle.copyWith(
                         fontSize: 14,
                       ),

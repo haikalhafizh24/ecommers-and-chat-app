@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storma/models/product_model.dart';
+import 'package:storma/providers/cart_provider.dart';
 import 'package:storma/providers/wishlist_provider.dart';
 import 'package:storma/shared/theme.dart';
 import 'package:storma/ui/widgets/custom_button.dart';
@@ -41,6 +42,7 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     WishlistProvider wishlistProvider = Provider.of<WishlistProvider>(context);
+    CartProvider cartPRovider = Provider.of<CartProvider>(context);
 
     Widget header() {
       return SafeArea(
@@ -65,10 +67,15 @@ class _ProductPageState extends State<ProductPage> {
                   color: cBgColor1,
                 ),
               ),
-              Image.asset(
-                'assets/Cart_icon.png',
-                width: 22,
-                color: cBgColor1,
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/cart-page');
+                },
+                child: Image.asset(
+                  'assets/Cart_icon.png',
+                  width: 22,
+                  color: cBgColor1,
+                ),
               ),
             ],
           ),
@@ -203,8 +210,9 @@ class _ProductPageState extends State<ProductPage> {
                                 margin: const EdgeInsets.only(
                                   right: 20,
                                   left: 20,
-                                  bottom: 20,
+                                  bottom: 10,
                                 ),
+                                duration: const Duration(milliseconds: 700),
                                 behavior: SnackBarBehavior.floating,
                                 backgroundColor: cBlueColor,
                                 content: const Text(
@@ -219,8 +227,9 @@ class _ProductPageState extends State<ProductPage> {
                                 margin: const EdgeInsets.only(
                                   right: 20,
                                   left: 20,
-                                  bottom: 20,
+                                  bottom: 10,
                                 ),
+                                duration: const Duration(milliseconds: 700),
                                 behavior: SnackBarBehavior.floating,
                                 backgroundColor: cRedColor,
                                 content: const Text(
@@ -351,7 +360,7 @@ class _ProductPageState extends State<ProductPage> {
 
     Widget actionButton() {
       return Container(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.all(15),
         color: cBgColor1,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -379,13 +388,15 @@ class _ProductPageState extends State<ProductPage> {
               child: CustomButton(
                 tittle: 'Add to Cart',
                 onTap: () {
+                  cartPRovider.addCart(widget.product);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       margin: const EdgeInsets.only(
                         right: 20,
                         left: 20,
-                        bottom: 20,
+                        bottom: 10,
                       ),
+                      duration: const Duration(milliseconds: 700),
                       behavior: SnackBarBehavior.floating,
                       backgroundColor: cBlueColor,
                       content: const Text(

@@ -14,8 +14,10 @@ class WishlistProvider with ChangeNotifier {
   setProduct(ProductModel product) {
     if (!isWishlist(product)) {
       _wishlist.add(product);
+      notifyListeners();
     } else {
       _wishlist.removeWhere((element) => element.id == product.id);
+      notifyListeners();
     }
   }
 

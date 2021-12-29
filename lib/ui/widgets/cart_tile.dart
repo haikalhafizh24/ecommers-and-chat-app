@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:storma/models/cart_model.dart';
+import 'package:storma/providers/cart_provider.dart';
 import 'package:storma/shared/theme.dart';
 
 class CartTile extends StatelessWidget {
-  final String imageUrl;
-  final String tittle;
-  final String price;
+  final CartModel cart;
   const CartTile({
     Key? key,
-    required this.imageUrl,
-    required this.tittle,
-    required this.price,
+    required this.cart,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
+
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.symmetric(
@@ -34,7 +35,9 @@ class CartTile extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
-                    image: AssetImage(imageUrl),
+                    image: NetworkImage(
+                      cart.product.galleries[0].url,
+                    ),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -48,7 +51,7 @@ class CartTile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      tittle,
+                      cart.product.name,
                       style: whiteTextStyle.copyWith(
                         fontWeight: semiBold,
                         fontSize: 16,
@@ -59,7 +62,7 @@ class CartTile extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      price,
+                      '\$ ${cart.product.price}',
                       style: blueTextStyle.copyWith(
                         fontSize: 14,
                       ),
@@ -85,7 +88,9 @@ class CartTile extends StatelessWidget {
                       ),
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
-                      onPressed: () {},
+                      onPressed: () {
+                        cartProvider.removeCart(cart.id);
+                      },
                     ),
                     Text(
                       'Remove',
@@ -97,18 +102,20 @@ class CartTile extends StatelessWidget {
                   children: [
                     IconButton(
                       icon: Icon(
-                        Icons.add,
+                        Icons.remove,
                         color: cPrimaryColor,
                       ),
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
-                      onPressed: () {},
+                      onPressed: () {
+                        cartProvider.reduceQuantity(cart.id);
+                      },
                     ),
                     const SizedBox(
                       width: 12,
                     ),
                     Text(
-                      '5',
+                      cart.quantity.toString(),
                       style: whiteTextStyle,
                     ),
                     const SizedBox(
@@ -116,12 +123,14 @@ class CartTile extends StatelessWidget {
                     ),
                     IconButton(
                       icon: Icon(
-                        Icons.remove,
+                        Icons.add,
                         color: cPrimaryColor,
                       ),
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
-                      onPressed: () {},
+                      onPressed: () {
+                        cartProvider.addQuantity(cart.id);
+                      },
                     ),
                   ],
                 ),

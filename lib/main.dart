@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storma/providers/auth_provider.dart';
+import 'package:storma/providers/cart_provider.dart';
 import 'package:storma/providers/product_provider.dart';
 import 'package:storma/providers/wishlist_provider.dart';
 import 'package:storma/ui/page/cart_page.dart';
@@ -36,6 +37,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => WishlistProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CartProvider(),
         ),
       ],
       child: MaterialApp(
