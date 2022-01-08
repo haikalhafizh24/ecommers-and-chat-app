@@ -4,13 +4,50 @@ import 'package:storma/models/user_model.dart';
 import 'package:storma/providers/auth_provider.dart';
 import 'package:storma/shared/theme.dart';
 
-class EditProfilePage extends StatelessWidget {
+class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
+
+  @override
+  State<EditProfilePage> createState() => _EditProfilePageState();
+}
+
+class _EditProfilePageState extends State<EditProfilePage> {
+  TextEditingController nameController = TextEditingController(text: '');
+
+  TextEditingController usernameController = TextEditingController(text: '');
+
+  TextEditingController emailController = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserModel user = authProvider.user;
+
+    handleUpdateProfile() async {
+      if (await authProvider.updateProfile(
+          name: nameController.text,
+          username: usernameController.text,
+          email: emailController.text,
+          token: authProvider.user.token)) {
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            margin: const EdgeInsets.only(
+              right: 20,
+              left: 20,
+              bottom: 20,
+            ),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: cRedColor,
+            content: const Text(
+              'Update Profile Failed',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      }
+    }
 
     Widget header() {
       return AppBar(
@@ -31,9 +68,7 @@ class EditProfilePage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: handleUpdateProfile,
             icon: Icon(
               Icons.check,
               color: cBlueColor,
@@ -77,14 +112,17 @@ class EditProfilePage extends StatelessWidget {
                   height: 12,
                 ),
                 InputForm(
+                  controller: nameController,
                   tittle: 'Name',
                   hintText: user.name,
                 ),
                 InputForm(
+                  controller: usernameController,
                   tittle: 'Username',
                   hintText: user.username,
                 ),
                 InputForm(
+                  controller: emailController,
                   tittle: 'Email Address',
                   hintText: user.email,
                 ),
@@ -109,10 +147,12 @@ class EditProfilePage extends StatelessWidget {
 class InputForm extends StatelessWidget {
   final String tittle;
   final String hintText;
+  final TextEditingController controller;
   const InputForm({
     Key? key,
     required this.tittle,
     required this.hintText,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -127,6 +167,7 @@ class InputForm extends StatelessWidget {
             style: greyTextStyle,
           ),
           TextFormField(
+            controller: controller,
             style: whiteTextStyle,
             cursorColor: cBlueColor,
             decoration: InputDecoration(

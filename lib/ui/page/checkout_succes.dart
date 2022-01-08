@@ -13,27 +13,31 @@ class CheckoutSuccesPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 70,
-              width: 80,
+              margin: const EdgeInsets.only(left: 60),
+              height: 200,
+              width: 200,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/emptyCart_icon.png'),
+                  image: AssetImage('assets/transaction_succes.png'),
                 ),
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             Text(
-              'Transaction Success!!',
-              style: whiteTextStyle.copyWith(fontSize: 16),
+              'Transaction Success',
+              style: whiteTextStyle.copyWith(
+                fontSize: 20,
+                fontWeight: semiBold,
+              ),
             ),
             const SizedBox(
-              height: 15,
+              height: 100,
             ),
             CustomButton(
               tittle: 'Order Another Shoes',
-              width: 153,
+              width: 200,
               onTap: () {
                 Navigator.pushNamed(context, '/main-page');
               },
@@ -43,7 +47,7 @@ class CheckoutSuccesPage extends StatelessWidget {
             ),
             CustomButton(
               tittle: 'My Transaction',
-              width: 153,
+              width: 200,
               color: cDeactiveColor,
               onTap: () {
                 Navigator.pushNamed(context, '/main-page');

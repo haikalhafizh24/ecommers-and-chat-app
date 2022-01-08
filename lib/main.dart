@@ -1,12 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storma/providers/auth_provider.dart';
 import 'package:storma/providers/cart_provider.dart';
+import 'package:storma/providers/page_provider.dart';
 import 'package:storma/providers/product_provider.dart';
 import 'package:storma/providers/transaction_provider.dart';
 import 'package:storma/providers/wishlist_provider.dart';
 import 'package:storma/ui/page/cart_page.dart';
-import 'package:storma/ui/page/chat_page_detail.dart';
 import 'package:storma/ui/page/chatting_page.dart';
 import 'package:storma/ui/page/checkout_page.dart';
 import 'package:storma/ui/page/checkout_succes.dart';
@@ -19,7 +20,9 @@ import 'package:storma/ui/page/sign_in_page.dart';
 import 'package:storma/ui/page/sign_up_page.dart';
 import 'package:storma/ui/page/splash_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -46,6 +49,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => TransactionProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => PageProvider(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -59,7 +65,6 @@ class MyApp extends StatelessWidget {
           '/wishlist-page': (context) => const WishlistPage(),
           '/profile-page': (context) => const ProfilePage(),
           '/cart-page': (context) => const CartPage(),
-          '/chat-page-detail': (context) => const ChatPageDetail(),
           '/edit-profile-page': (context) => const EditProfilePage(),
           '/checkout': (context) => const CheckoutPage(),
           '/checkout-success': (context) => const CheckoutSuccesPage(),

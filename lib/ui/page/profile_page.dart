@@ -12,6 +12,15 @@ class ProfilePage extends StatelessWidget {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserModel user = authProvider.user;
 
+    handleLogout() async {
+      if (await authProvider.logout(
+        token: authProvider.user.token,
+      )) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/signIn-page', (route) => false);
+      }
+    }
+
     Widget header() {
       return AppBar(
         elevation: 0,
@@ -59,9 +68,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                  onPressed: handleLogout,
                   icon: Icon(
                     Icons.exit_to_app_rounded,
                     color: cRedColor,

@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:storma/models/message_model.dart';
+import 'package:storma/models/product_model.dart';
 import 'package:storma/shared/theme.dart';
+import 'package:storma/ui/page/chat_page_detail.dart';
 
 class ChatTile extends StatelessWidget {
-  const ChatTile({Key? key}) : super(key: key);
+  final MessageModel message;
+  const ChatTile({
+    Key? key,
+    required this.message,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.pushNamed(context, '/chat-page-detail');
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatPageDetail(
+              product: UninitializeProductModel(),
+            ),
+          ),
+        );
       },
       child: Column(
         children: [
@@ -38,7 +52,7 @@ class ChatTile extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "Your item is ready, Your item is ready",
+                      message.message,
                       overflow: TextOverflow.ellipsis,
                       style: greyTextStyle.copyWith(
                         fontSize: 15,

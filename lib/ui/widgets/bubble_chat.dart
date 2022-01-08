@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:storma/models/product_model.dart';
 import 'package:storma/shared/theme.dart';
+import 'package:storma/ui/page/product_page.dart';
 
 class BubbleChat extends StatelessWidget {
   final bool isUser;
-  final bool hasProduct;
   final String text;
+  final ProductModel product;
 
   const BubbleChat({
     Key? key,
     required this.text,
     required this.isUser,
-    required this.hasProduct
+    required this.product,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    
     Widget productPreview() {
       return Row(
         mainAxisAlignment:
@@ -43,8 +44,8 @@ class BubbleChat extends StatelessWidget {
                       height: 70,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        image: const DecorationImage(
-                          image: AssetImage('assets/shoes_image.png'),
+                        image: DecorationImage(
+                          image: NetworkImage(product.galleries[0].url),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -58,14 +59,14 @@ class BubbleChat extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Adidas Ultraboost 2.0',
+                            product.name,
                             style: whiteTextStyle.copyWith(
                               fontSize: 14,
                             ),
                             overflow: TextOverflow.clip,
                           ),
                           Text(
-                            '\$ 78.09',
+                            '\$ ${product.price}',
                             style: blueTextStyle.copyWith(
                               fontSize: 14,
                             ),
@@ -84,7 +85,14 @@ class BubbleChat extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       color: cPrimaryColor),
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductPage(product: product),
+                        ),
+                      );
+                    },
                     child: Text(
                       'Details',
                       style: whiteTextStyle.copyWith(fontSize: 12),
@@ -103,7 +111,9 @@ class BubbleChat extends StatelessWidget {
       margin: const EdgeInsets.only(top: 12),
       child: Column(
         children: [
-          hasProduct ? productPreview() : const SizedBox(),
+          product is UninitializeProductModel
+              ? const SizedBox()
+              : productPreview(),
           Row(
             mainAxisAlignment:
                 isUser ? MainAxisAlignment.end : MainAxisAlignment.start,

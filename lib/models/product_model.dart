@@ -47,8 +47,26 @@ class ProductModel {
       'tags': tags,
       'category': category.toJson(),
       'galleries': galleries.map((gallery) => gallery.toJson()).toList(),
-      'createdAt': createdAt.toString(),
-      'updatedAt': updatedAt.toString(),
+      'created_at': createdAt.toString(),
+      'updated_at': updatedAt.toString(),
     };
   }
+}
+
+class UninitializeProductModel extends ProductModel {
+  UninitializeProductModel()
+      : super(
+          id: 0,
+          name: "",
+          price: 0,
+          description: "",
+          tags: "",
+          category: CategoryModel(
+            id: 0,
+            name: "",
+          ),
+          galleries: List.empty(),
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        );
 }

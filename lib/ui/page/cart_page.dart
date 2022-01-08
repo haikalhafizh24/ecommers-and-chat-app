@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storma/providers/cart_provider.dart';
+import 'package:storma/providers/page_provider.dart';
 import 'package:storma/shared/theme.dart';
 import 'package:storma/ui/widgets/cart_tile.dart';
 import 'package:storma/ui/widgets/custom_button.dart';
@@ -11,6 +12,7 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
+    PageProvider pageProvider = Provider.of<PageProvider>(context);
 
     Widget header() {
       return AppBar(
@@ -38,11 +40,12 @@ class CartPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 70,
-              width: 80,
+              margin: const EdgeInsets.only(left: 25),
+              height: 200,
+              width: 200,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/emptyCart_icon.png'),
+                  image: AssetImage('assets/empty_cart.png'),
                 ),
               ),
             ),
@@ -50,14 +53,14 @@ class CartPage extends StatelessWidget {
               height: 20,
             ),
             Text(
-              'Your Card is Empty',
+              'Your Cart is Empty',
               style: whiteTextStyle.copyWith(fontSize: 16),
             ),
             const SizedBox(
               height: 10,
             ),
             Text(
-              'Add item to your card!',
+              'Add item to your cart!',
               style: greyTextStyle,
             ),
             const SizedBox(
@@ -67,7 +70,7 @@ class CartPage extends StatelessWidget {
               tittle: 'Add Product',
               width: 153,
               onTap: () {
-                Navigator.pushNamed(context, '/main-page');
+                pageProvider.currentIndex = 0;
               },
             ),
           ],

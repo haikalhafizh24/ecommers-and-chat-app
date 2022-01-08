@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:storma/providers/page_provider.dart';
 import 'package:storma/providers/wishlist_provider.dart';
 import 'package:storma/shared/theme.dart';
 import 'package:storma/ui/widgets/custom_button.dart';
@@ -16,6 +17,7 @@ class _WishlistPageState extends State<WishlistPage> {
   @override
   Widget build(BuildContext context) {
     WishlistProvider wishlistProvider = Provider.of<WishlistProvider>(context);
+    PageProvider pageProvider = Provider.of<PageProvider>(context);
 
     Widget header() {
       return AppBar(
@@ -37,11 +39,11 @@ class _WishlistPageState extends State<WishlistPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 70,
-              width: 80,
+              height: 150,
+              width: 150,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/love_image.png'),
+                  image: AssetImage('assets/favorite.png'),
                 ),
               ),
             ),
@@ -66,7 +68,7 @@ class _WishlistPageState extends State<WishlistPage> {
               tittle: 'Add Product',
               width: 153,
               onTap: () {
-                Navigator.pushNamed(context, '/main-page');
+                pageProvider.currentIndex = 0;
               },
             ),
           ],

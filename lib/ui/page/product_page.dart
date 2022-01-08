@@ -5,6 +5,7 @@ import 'package:storma/models/product_model.dart';
 import 'package:storma/providers/cart_provider.dart';
 import 'package:storma/providers/wishlist_provider.dart';
 import 'package:storma/shared/theme.dart';
+import 'package:storma/ui/page/chat_page_detail.dart';
 import 'package:storma/ui/widgets/custom_button.dart';
 
 class ProductPage extends StatefulWidget {
@@ -19,13 +20,6 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  List imageProduct = [
-    'assets/shoes_image.png',
-    'assets/shoes_image.png',
-    'assets/shoes_image.png',
-    'assets/shoes_image.png',
-  ];
-
   List similiarShoes = [
     'assets/shoes_image1.png',
     'assets/shoes_image2.png',
@@ -43,6 +37,28 @@ class _ProductPageState extends State<ProductPage> {
   Widget build(BuildContext context) {
     WishlistProvider wishlistProvider = Provider.of<WishlistProvider>(context);
     CartProvider cartPRovider = Provider.of<CartProvider>(context);
+
+    Widget cartTotal() {
+      return Container(
+        height: 15,
+        width: 15,
+        decoration: BoxDecoration(
+          color: cRedColor,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(15),
+          ),
+        ),
+        child: Center(
+          child: Text(
+            cartPRovider.totalItems().toString(),
+            style: bgColor4TextStyle.copyWith(
+              fontSize: 10,
+              fontWeight: semiBold,
+            ),
+          ),
+        ),
+      );
+    }
 
     Widget header() {
       return SafeArea(
@@ -65,16 +81,25 @@ class _ProductPageState extends State<ProductPage> {
                 icon: Icon(
                   Icons.chevron_left,
                   color: cBgColor1,
+                  size: 30,
                 ),
               ),
               GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, '/cart-page');
                 },
-                child: Image.asset(
-                  'assets/Cart_icon.png',
-                  width: 22,
-                  color: cBgColor1,
+                child: Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+                    Image.asset(
+                      'assets/Cart_icon.png',
+                      width: 25,
+                      color: cBgColor1,
+                    ),
+                    cartPRovider.totalItems() == 0
+                        ? const SizedBox()
+                        : cartTotal(),
+                  ],
                 ),
               ),
             ],
@@ -365,19 +390,30 @@ class _ProductPageState extends State<ProductPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              width: 54,
-              height: 54,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: cPrimaryColor),
-              ),
-              child: Center(
-                child: Image.asset(
-                  'assets/chat_icon.png',
-                  color: cPrimaryColor,
-                  width: 23,
-                  height: 22,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ChatPageDetail(product: widget.product),
+                  ),
+                );
+              },
+              child: Container(
+                width: 54,
+                height: 54,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: cPrimaryColor),
+                ),
+                child: Center(
+                  child: Image.asset(
+                    'assets/chat_icon.png',
+                    color: cPrimaryColor,
+                    width: 23,
+                    height: 22,
+                  ),
                 ),
               ),
             ),

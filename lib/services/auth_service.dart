@@ -71,4 +71,64 @@ class AuthService {
       throw Exception('Gagal Login');
     }
   }
+
+  Future<bool> logout({
+    required String token,
+  }) async {
+    var url = '$baseUrl/logout';
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    };
+
+    var response = await http.post(
+      Uri.parse(url),
+      headers: headers,
+    );
+
+    // ignore: avoid_print
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('Gagal Logout');
+    }
+  }
+
+  Future<UserModel> updateProfile({
+    required String name,
+    required String username,
+    required String email,
+    required String token,
+  }) async {
+    var url = '$baseUrl/user';
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    };
+    var body = jsonEncode({
+      'name': name,
+      'username': username,
+      'email': email,
+    });
+
+    var response = await http.post(
+      Uri.parse(url),
+      headers: headers,
+      body: body,
+    );
+
+    // ignore: avoid_print
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body)['data'];
+      UserModel user = UserModel.fromJson(data);
+
+      return user;
+    } else {
+      throw Exception('Gagal Register');
+    }
+  }
 }
