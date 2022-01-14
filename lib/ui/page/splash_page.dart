@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:storma/providers/auth_provider.dart';
 import 'package:storma/providers/product_provider.dart';
+import 'package:storma/services/secure_storage_service.dart';
 import 'package:storma/shared/theme.dart';
 
 class SplashPage extends StatefulWidget {
@@ -11,6 +13,9 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  final UserSecureStorageService userSecureStorageService =
+      UserSecureStorageService();
+
   @override
   void initState() {
     getInit();
@@ -21,8 +26,21 @@ class _SplashPageState extends State<SplashPage> {
   getInit() async {
     await Provider.of<ProductProvider>(context, listen: false).getProducts();
 
-    Navigator.pushNamedAndRemoveUntil(
-        context, '/signIn-page', (route) => false);
+    AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
+
+    final token = await UserSecureStorageService().getUserToken() ?? '';
+
+    if (await authProvider.getUser(token: token)) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/main-page', (route) => false);
+    } else {
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/signIn-page', (route) => false);
+    }
+
+    // Navigator.pushNamedAndRemoveUntil(
+    //     context, '/signIn-page', (route) => false);
   }
 
   @override

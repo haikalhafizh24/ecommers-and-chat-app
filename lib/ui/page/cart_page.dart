@@ -140,7 +140,8 @@ class CartPage extends StatelessWidget {
         preferredSize: const Size.fromHeight(60),
       ),
       body: cartProvider.carts.isEmpty ? emptyCart() : content(),
-      bottomNavigationBar: actionButton(),
+      bottomNavigationBar:
+          cartProvider.carts.isEmpty ? const SizedBox() : actionButton(),
     );
   }
 }

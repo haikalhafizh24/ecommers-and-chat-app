@@ -54,6 +54,23 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  Future<bool> getUser({
+    required String token,
+  }) async {
+    try {
+      UserModel user = await AuthService().getUser(
+        token: token,
+      );
+
+      _user = user;
+      return true;
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+      return false;
+    }
+  }
+
   Future<bool> logout({
     required String token,
   }) async {

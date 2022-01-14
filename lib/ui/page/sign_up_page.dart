@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storma/providers/auth_provider.dart';
+import 'package:storma/services/secure_storage_service.dart';
 import 'package:storma/shared/theme.dart';
 import 'package:storma/ui/widgets/custom_button.dart';
 import 'package:storma/ui/widgets/custom_text_form_field.dart';
@@ -40,6 +41,8 @@ class _SignUpPageState extends State<SignUpPage> {
       )) {
         Navigator.pushNamedAndRemoveUntil(
             context, '/main-page', (route) => false);
+
+        UserSecureStorageService().setUserToken(authProvider.user.token);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

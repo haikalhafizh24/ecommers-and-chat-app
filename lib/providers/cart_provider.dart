@@ -4,6 +4,7 @@ import 'package:storma/models/product_model.dart';
 
 class CartProvider with ChangeNotifier {
   List<CartModel> _carts = [];
+  final List<CartModel> _remove = [];
 
   List<CartModel> get carts => _carts;
 
@@ -30,20 +31,28 @@ class CartProvider with ChangeNotifier {
   }
 
   removeCart(int id) {
-    _carts.removeAt(id);
-    notifyListeners();
+    if (_carts.isNotEmpty) {
+      _carts.removeWhere((element) => element.id == id);
+      notifyListeners();
+    }
   }
 
   addQuantity(int id) {
-    _carts[id].quantity++;
+    _carts.where((element) => element.id == id).forEach((element) {
+      element.quantity++;
+    });
     notifyListeners();
   }
 
   reduceQuantity(int id) {
-    _carts[id].quantity--;
-    if (_carts[id].quantity == 0) {
-      _carts.removeAt(id);
-    }
+    _carts.where((element) => element.id == id).forEach((element) {
+      element.quantity--;
+      if (element.quantity == 0) {
+        _remove.add(element);
+      }
+    });
+
+    _carts.removeWhere((e) => _remove.contains(e));
     notifyListeners();
   }
 

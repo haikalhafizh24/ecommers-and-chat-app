@@ -2,9 +2,12 @@ import 'dart:convert';
 
 import 'package:storma/models/user_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:storma/services/secure_storage_service.dart';
 
 class AuthService {
   String baseUrl = 'https://shamo-backend.buildwithangga.id/api';
+  final UserSecureStorageService userSecureStorageService =
+      UserSecureStorageService();
 
   Future<UserModel> register({
     required String name,
@@ -34,6 +37,8 @@ class AuthService {
       var data = jsonDecode(response.body)['data'];
       UserModel user = UserModel.fromJson(data['user']);
       user.token = 'Bearer ' + data['access_token'];
+
+      UserSecureStorageService().setUserToken(user.token);
 
       return user;
     } else {
@@ -66,6 +71,36 @@ class AuthService {
       UserModel user = UserModel.fromJson(data['user']);
       user.token = 'Bearer ' + data['access_token'];
 
+      UserSecureStorageService().setUserToken(user.token);
+
+      return user;
+    } else {
+      throw Exception('Gagal Login');
+    }
+  }
+
+  Future<UserModel> getUser({
+    required String token,
+  }) async {
+    var url = '$baseUrl/user';
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': token,
+    };
+
+    var response = await http.get(
+      Uri.parse(url),
+      headers: headers,
+    );
+
+    // ignore: avoid_print
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body)['data'];
+      UserModel user = UserModel.fromJson(data);
+      user.token = token;
+
       return user;
     } else {
       throw Exception('Gagal Login');
@@ -90,6 +125,7 @@ class AuthService {
     print(response.body);
 
     if (response.statusCode == 200) {
+      UserSecureStorageService().deleteUserToken();
       return true;
     } else {
       throw Exception('Gagal Logout');

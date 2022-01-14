@@ -56,6 +56,9 @@ class CustomTextFormField extends StatelessWidget {
                       hintText: hintText,
                       hintStyle: greyTextStyle,
                       focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
                     ),
                   ),
                 )

@@ -24,6 +24,9 @@ class _SignInPageState extends State<SignInPage> {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
     handleSignIn() async {
+      // final token = await UserSecureStorageService.getUserToken() ?? '';
+
+      // await authProvider.getUser(token: token);
       setState(() {
         isLoading = true;
       });

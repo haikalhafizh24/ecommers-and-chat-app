@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storma/models/user_model.dart';
 import 'package:storma/providers/auth_provider.dart';
+import 'package:storma/services/secure_storage_service.dart';
 import 'package:storma/shared/theme.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -12,13 +13,26 @@ class ProfilePage extends StatelessWidget {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserModel user = authProvider.user;
 
+    final UserSecureStorageService userSecureStorageService =
+        UserSecureStorageService();
+
     handleLogout() async {
-      if (await authProvider.logout(
-        token: authProvider.user.token,
-      )) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, '/signIn-page', (route) => false);
-      }
+      // final token =
+      // UserSecureStorageService().setUserToken(authProvider.user.token);
+      // as String;
+
+      authProvider.logout(token: authProvider.user.token);
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/signIn-page', (route) => false);
+
+      userSecureStorageService.deleteUserToken();
+
+      // if (await authProvider.getUser(token: token)(
+      //   token: authProvider.user.token,
+      // )) {
+      //   Navigator.pushNamedAndRemoveUntil(
+      //       context, '/signIn-page', (route) => false);
+      // }
     }
 
     Widget header() {
