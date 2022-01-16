@@ -38,9 +38,6 @@ class _SplashPageState extends State<SplashPage> {
       Navigator.pushNamedAndRemoveUntil(
           context, '/signIn-page', (route) => false);
     }
-
-    // Navigator.pushNamedAndRemoveUntil(
-    //     context, '/signIn-page', (route) => false);
   }
 
   @override

@@ -16,6 +16,7 @@ import 'package:storma/ui/page/home_page.dart';
 import 'package:storma/ui/page/love_page.dart';
 import 'package:storma/ui/page/main_page.dart';
 import 'package:storma/ui/page/profile_page.dart';
+import 'package:storma/ui/page/search_page.dart';
 import 'package:storma/ui/page/sign_in_page.dart';
 import 'package:storma/ui/page/sign_up_page.dart';
 import 'package:storma/ui/page/splash_page.dart';
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
           '/edit-profile-page': (context) => const EditProfilePage(),
           '/checkout': (context) => const CheckoutPage(),
           '/checkout-success': (context) => const CheckoutSuccesPage(),
+          '/search': (context) => const SearchPage(),
         },
       ),
     );

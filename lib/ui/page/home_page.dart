@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:storma/models/product_model.dart';
 import 'package:storma/models/user_model.dart';
 import 'package:storma/providers/auth_provider.dart';
 import 'package:storma/providers/product_provider.dart';
 import 'package:storma/shared/theme.dart';
+import 'package:storma/ui/page/search_page.dart';
 import 'package:storma/ui/widgets/category_item.dart';
 import 'package:storma/ui/widgets/new_arrivals_item.dart';
 import 'package:storma/ui/widgets/popular_product_card.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String query = '';
+  List<ProductModel> products = [];
+
+  TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,56 +57,69 @@ class HomePage extends StatelessWidget {
                 )
               ],
             ),
-            Container(
-              height: 54,
-              width: 54,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: NetworkImage(
-                    user.profilePhotoUrl,
-                  ),
-                ),
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/search');
+              },
+              icon: Icon(
+                Icons.search_outlined,
+                color: cPrimaryColor,
+                size: 32,
               ),
-            )
+            ),
+            // Container(
+            //   height: 54,
+            //   width: 54,
+            //   decoration: BoxDecoration(
+            //     shape: BoxShape.circle,
+            //     image: DecorationImage(
+            //       image: NetworkImage(
+            //         user.profilePhotoUrl,
+            //       ),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       );
     }
 
-    Widget searchField() {
+    Widget searchProduct() {
       return Container(
         margin: const EdgeInsets.only(
-          right: 15,
-          left: 15,
+          top: 20,
+          left: 20,
+          right: 20,
         ),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 17),
-          margin: const EdgeInsets.only(top: 12),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(defaultRadius),
-              color: cBgColor2),
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/search');
+          },
+          style: ElevatedButton.styleFrom(
+            primary: cBgColor4,
+          ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.asset(
-                'assets/Union.png',
-                width: 16,
-                height: 18,
-              ),
-              const SizedBox(
-                width: 16,
-              ),
-              Expanded(
-                child: TextFormField(
-                  style: whiteTextStyle,
-                  cursorColor: cBlueColor,
-                  decoration: InputDecoration(
-                    hintText: 'Search product',
-                    hintStyle: greyTextStyle,
-                    focusedBorder: InputBorder.none,
+              Row(
+                children: [
+                  Icon(
+                    Icons.search_outlined,
+                    color: cWhiteColor,
                   ),
-                ),
-              )
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    'Search Product',
+                    style: whiteTextStyle,
+                  ),
+                ],
+              ),
+              Icon(
+                Icons.arrow_forward_rounded,
+                color: cWhiteColor,
+              ),
             ],
           ),
         ),
@@ -221,7 +246,8 @@ class HomePage extends StatelessWidget {
       body: ListView(
         children: [
           header(),
-          searchField(),
+          // searchProduct(),
+          // Expanded(child: const SearchPage()),
           category(),
           popularProducts(),
           newArrivalsProduct(),

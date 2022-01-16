@@ -17,22 +17,11 @@ class ProfilePage extends StatelessWidget {
         UserSecureStorageService();
 
     handleLogout() async {
-      // final token =
-      // UserSecureStorageService().setUserToken(authProvider.user.token);
-      // as String;
-
       authProvider.logout(token: authProvider.user.token);
       Navigator.pushNamedAndRemoveUntil(
           context, '/signIn-page', (route) => false);
 
       userSecureStorageService.deleteUserToken();
-
-      // if (await authProvider.getUser(token: token)(
-      //   token: authProvider.user.token,
-      // )) {
-      //   Navigator.pushNamedAndRemoveUntil(
-      //       context, '/signIn-page', (route) => false);
-      // }
     }
 
     Widget header() {
